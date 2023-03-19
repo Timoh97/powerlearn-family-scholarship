@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'crispy_forms',
     'django_daraja',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
