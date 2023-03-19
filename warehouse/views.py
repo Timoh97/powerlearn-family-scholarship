@@ -68,7 +68,7 @@ def IndexView(request):
               message, settings.EMAIL_HOST_USER, [recipient], fail_silently=False)
             messages.success(request, 'Success!')
             return redirect('subscribe')
-    return render(request, '',{'form': form})  #index.html
+    return render(request, 'main_pages/index.html',{'form': form})  #index.html
 
 
 @login_required(login_url = '/client_login')
@@ -76,13 +76,13 @@ def records(request):
     storage_records = Goods.objects.filter(owner=request.user).all
     print(type(storage_records))
 
-    return render(request, "",{'records':storage_records})  #records.html
+    return render(request, "records/records.html",{'records':storage_records})  
 
 @login_required(login_url = '/client_login')
 def services(request):
     
     storages = Storage.objects.all()
-    return render(request, "",{'storages':storages})  #services.html
+    return render(request, "warehouse/services.html",{'storages':storages})  
 
 
 
@@ -102,8 +102,8 @@ def admin_login(request):
                 return HttpResponse("You are not an admin.")
         else:
             alert = True
-            return render(request, "", {'alert':alert})  #admin_login.html
-    return render(request, "")  #admin_login.html
+            return render(request, "admin/admin_login.html", {'alert':alert})  
+    return render(request, "admin/admin_login.html")  
 
 def change_password(request):
     if request.method == "POST":
@@ -115,13 +115,13 @@ def change_password(request):
                 u.set_password(new_password)
                 u.save()
                 alert = True
-                return render(request, "change_password.html", {'alert':alert})
+                return render(request, "authorization/change_password.html", {'alert':alert})
             else:
                 currpasswrong = True
-                return render(request, "change_password.html", {'currpasswrong':currpasswrong})
+                return render(request, "authorization/change_password.html", {'currpasswrong':currpasswrong})
         except:
             pass
-    return render(request, "") #change_password.html
+    return render(request, "authorization/change_password.html")
 
 def Logout(request):
     logout(request)
@@ -129,33 +129,22 @@ def Logout(request):
 
 
 def register(request):
-    return render(request, '')  #register.html
+    return render(request, 'authorization/register.html')  
 
 class client_register(CreateView):
     model = User
     form_class = ClientSignUpForm
-    template_name = ''  #client_registration.html
+    template_name = 'clients/client_registration.html'
 
     def form_valid(self, form):
         user = form.save()
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('/client_login')
 
-
-# def signup_view(request):
-#     if request.method=='POST':
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             user=form.save()
-#             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-#             return redirect('home')
-
-
-
 class staff_register(CreateView):
     model = User
     form_class = StaffSignUpForm
-    template_name = '' #staff_registration.html
+    template_name = 'staff/staff_registration.html' 
 
     
     def form_valid(self, form):
@@ -177,8 +166,8 @@ def client_login(request):
                 messages.error(request,"Invalid username or password")
         else:
                 messages.error(request,"Invalid username or password")
-    return render(request, '',
-    context={'form':AuthenticationForm()})  #client_login.html
+    return render(request, 'clients/client_login.html',
+    context={'form':AuthenticationForm()})  
 
 def staff_login(request):
     if request.method=='POST':
@@ -189,13 +178,13 @@ def staff_login(request):
             user = authenticate(username=username, password=password)
             if user is not None :
                 login(request,user)
-                return redirect('/analytics') #change
+                return redirect('/analysis') #change
             else:
                 messages.error(request,"You are not a staff.")
         else:
                 messages.error(request,"You are not a staff.")
-    return render(request, '',
-    context={'form':AuthenticationForm()})  #staff_login.html
+    return render(request, 'staff/staff_login.html',
+    context={'form':AuthenticationForm()}) 
 
 def logout_view(request):
     logout(request)
@@ -205,13 +194,13 @@ def logout_view(request):
 def client_profile(request):
     current_user = request.user
     profile = Client.objects.get(user_id=current_user.id) 
-    return render(request, "", {"profile": profile})  #profile.html
+    return render(request, "profile/profile/html", {"profile": profile})  
 
 @login_required(login_url = '/staff_login')
 def staff_profile(request):
     current_user = request.user
     profile = Staff.objects.filter(user_id=current_user.id).first()
-    return render(request, "", {"profile": profile})  #profile.html
+    return render(request, "profile/profile.html", {"profile": profile})  
 
 
 @login_required(login_url = '/admin_login')
@@ -237,7 +226,7 @@ def update_client_profile(request):
     'user_form':user_form,
     'form':form
   }
-  return render(request,'',params)  #edit_profile.html
+  return render(request,'profile/edit_profile.html',params)  #edit_profile.html
 
 
 def update_staff_profile(request):
@@ -257,7 +246,7 @@ def update_staff_profile(request):
         'u_form': u_form,
         'p_form': p_form
     }
-    return render(request,'',context)   #staff_profile.html
+    return render(request,'staff/staff_profile.html',context)   #staff_profile.html
 
 @login_required
 def update_profile(request,id):
@@ -272,12 +261,12 @@ def update_profile(request,id):
                 profile.save()
                 return redirect('profile') 
             
-    return render(request, '', {"form":form, 'profile':profile})  #edit_profile.html
+    return render(request, 'profile/edit_profile.html', {"form":form, 'profile':profile})  
 
 def checkout_booking(request,records_id):
     goods = Goods.objects.filter(id=records_id).first()
     
-    return render(request,'',{'goods':goods})  #checkout.html
+    return render(request,'payments/checkout.html',{'goods':goods}) 
 
 def checkout_goods(request,goods_id):
     goods = Goods.objects.filter(id=goods_id).first()
@@ -308,10 +297,10 @@ def subscribe(request):
               message, settings.EMAIL_HOST_USER, [recipient], fail_silently=False)
             messages.success(request, 'Success!')
             return redirect('subscribe')
-    return render(request, '', {'form': form})  #index.html
+    return render(request, 'main_pages/index.html', {'form': form})  #index.html
 
 def blog(request):
-    return render(request, '')  #blog.html
+    return render(request, 'main_pages/blog.html')  #blog.html
 
 def page_not_found_view(request, exception):
-    return render(request, '', status=404)  #404.html
+    return render(request, 'error/404.html', status=404)  #404.html
