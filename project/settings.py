@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     #installed modules
     'bootstrap4',
     'crispy_forms',
+    'django_daraja',
 ]
 
 MIDDLEWARE = [
