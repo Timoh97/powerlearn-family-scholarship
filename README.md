@@ -4,7 +4,7 @@
 
 ## owner 
   
-[Ezekiel Kibiego](https://github.com/ezekielkibiego) <br>
+[Timothy Mugendi](https://github.com/Timoh97)
 ## Description
 
 The modern store is the storage facility that helps users to store either personal belongings or business goods in a secure location.
