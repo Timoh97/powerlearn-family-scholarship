@@ -30,7 +30,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -53,6 +53,14 @@ INSTALLED_APPS = [
     'django_daraja',
     'paypal.standard.ipn',
     'rest_framework',
+    #modules to install
+    'cloudinary',
+    'rest_framework.authtoken',
+    'widget_tweaks',
+    'mathfilters',
+    'social_django',
+    'paypal.standard.ipn',
+    'jazzmin',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +93,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+#GOOGLE API
+GOOGLE_API_KEY= config('GOOGLE_API_KEY')
+BASE_COUNTRY='KE'
+#PAYPAL API
+PAYPAL_RECEIVER_EMAIL = '@gmail.com'
+PAYPAL_TEST = True
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('S_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('S_SECRET')
+
+LOGIN_REDIRECT_URL = 'index'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -108,11 +129,89 @@ cloudinary.config(
     secure=True
 )
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'onlinebizna4developers@gmail.com'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
+
+
+#jazzmin settings
+JAZZMIN_SETTINGS = {
+      # title of the window (Will default to current_admin_site.site_title if absent or None)
+   "site_title": "warehouse-admin",
+# Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "warehouse",
+     # Welcome text on the login screen
+    "welcome_sign": "Welcome to the modern warehouse",
+    # Copyright on the footer
+    "copyright": "warehouse_centre ltd @2022",
+    # The model admin to search from the search bar, search bar omitted if excluded
+    "search_model": "auth.User",
+     "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+
+        # {"name": "Staff ", "url": "/staff_register", "new_window": True},
+
+        {"name": "View Website", "url": "/", "new_window": True},
+        {"name": "Register Staff", "url": "/staff_register/", "new_window": True},
+        
+
+
+        # model admin to link to (Permissions checked against model)
+        {"model": "auth.User"},
+
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"app": "store"},
+    ],
+     "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "custom_links": {
+    "books": [{
+        
+             
+    }]
+},
+}
+
+MPESA_ENVIRONMENT = 'sandbox'
+MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY')
+MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
+
+#Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
+
+MPESA_SHORTCODE = config('MPESA_SHORTCODE')
+MPESA_EXPRESS_SHORTCODE = config('MPESA_SHORTCODE')
+# Type of shortcode
+# Possible values:
+# - paybill (For Paybill)
+# - till_number (For Buy Goods Till Number)
+
+MPESA_SHORTCODE_TYPE = 'paybill'
+
+# Lipa na MPESA Online passkey
+# Sandbox passkey is available on test credentials page
+# Production passkey is sent via email once you go live
+
+MPESA_PASSKEY = config('MPESA_PASSKEY')
+
+# Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
+
+MPESA_INITIATOR_USERNAME = 'initiator_username'
+
+# Plaintext password for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
+
+MPESA_INITIATOR_SECURITY_CREDENTIAL = 'initiator_security_credential'
+
+PAYPAL_CLIENT_ID=config('PAYPAL_CLIENT_ID')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -132,7 +231,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'warehouse.User'
 
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
