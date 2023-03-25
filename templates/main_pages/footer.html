@@ -1,0 +1,83 @@
+{% load bootstrap4 %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<footer class="site-footer" style="margin-bottom: 300px;">
+    <div class="container" >
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-5">
+              <h2 class="footer-heading mb-4">About Us</h2>
+              <p>We provide a range of storage facilities based on the type of goods that clients need to be stored</p>
+            </div>
+            <div class="col-md-3 mx-auto">
+              <h2 class="footer-heading mb-4">Quick Links</h2>
+              <ul class="list-unstyled">
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Testimonials</a></li>
+                <li><a href="#">Contact Us</a></li>
+              </ul>
+            </div>
+            
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-4">
+            <h2 class="footer-heading mb-4">Subscribe Newsletter</h2>
+          <form action="{% url 'subscribe' %}" method="post" class="footer-subscribe">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+              <input type="email" name="email" class="form-control border-secondary text-white bg-transparent" required placeholder="Enter Email" aria-label="Enter Email" aria-describedby="button-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary text-black" type="submit" id="button-addon2">Send</button>
+              </div>
+            </div>
+          </form> 
+
+          <!-- <div class="container-fluid text-center">
+            <h1>Subscribe To Our Emailing Service</h1>
+              {% if messages %}
+                  {% for message in messages %}
+                      <p style="color:green">{{ message }}</p>
+                  {% endfor %}
+              {% endif %}
+              <form action="{% url 'subscribe' %}" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    
+                  </div>
+                  {% render_field form.email|append_attr:"required" placeholder="Your Email" %}
+                  <input type="submit" value="Submit">
+              </form>
+          </div> -->
+
+
+          </div>
+          
+          <div class="">
+            <h2 class="footer-heading mb-4">Follow Us</h2>
+              <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-12">
+        <div class="border-top" style="margin-top:120px;">
+        <p class="copyright pt-4"><small>&copy; <script>document.write(new Date().getFullYear());</script> StoreCentre. All Rights Reserved By.<a href="/" target="_blank">Store.com</a></small></p>
+        </div>
+      </div>
+      
+    </div>
+  </footer>
+
+  <a href="#top" style="border-radius: 80px;background-color: darkcyan;" class="gototop"><span class="icon-angle-double-up"></span></a>
+
+ {%endblock%}
