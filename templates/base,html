@@ -79,7 +79,7 @@
 
 
   <div class="site-wrap">
-    {% include "navbar.html" %}
+    {% include "main_pages/navbar.html" %}
 
     {% if messages %}
     {% for message in messages %}
