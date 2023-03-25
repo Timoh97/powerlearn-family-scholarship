@@ -59,8 +59,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'mathfilters',
     'social_django',
-    'paypal.standard.ipn',
     'jazzmin',
+    # 'django.contrib.ipn',
 ]
 
 MIDDLEWARE = [
@@ -94,17 +94,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 #GOOGLE API
-GOOGLE_API_KEY= config('GOOGLE_API_KEY')
-BASE_COUNTRY='KE'
+# GOOGLE_API_KEY= config('GOOGLE_API_KEY')
+# BASE_COUNTRY='KE'
 #PAYPAL API
-PAYPAL_RECEIVER_EMAIL = '@gmail.com'
-PAYPAL_TEST = True
+# PAYPAL_RECEIVER_EMAIL = '@gmail.com'
+# PAYPAL_TEST = True
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('S_KEY')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('S_SECRET')
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('S_KEY')
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('S_SECRET')
 
-LOGIN_REDIRECT_URL = 'index'
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# LOGIN_REDIRECT_URL = 'index'
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 # Database
@@ -182,14 +182,14 @@ JAZZMIN_SETTINGS = {
 },
 }
 
-MPESA_ENVIRONMENT = 'sandbox'
-MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY')
-MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
+# MPESA_ENVIRONMENT = 'sandbox'
+# MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY')
+# MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
 
 #Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
 
-MPESA_SHORTCODE = config('MPESA_SHORTCODE')
-MPESA_EXPRESS_SHORTCODE = config('MPESA_SHORTCODE')
+#MPESA_SHORTCODE = config('MPESA_SHORTCODE')
+#MPESA_EXPRESS_SHORTCODE = config('MPESA_SHORTCODE')
 # Type of shortcode
 # Possible values:
 # - paybill (For Paybill)
@@ -201,17 +201,17 @@ MPESA_SHORTCODE_TYPE = 'paybill'
 # Sandbox passkey is available on test credentials page
 # Production passkey is sent via email once you go live
 
-MPESA_PASSKEY = config('MPESA_PASSKEY')
+#MPESA_PASSKEY = config('MPESA_PASSKEY')
 
 # Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
-MPESA_INITIATOR_USERNAME = 'initiator_username'
+#MPESA_INITIATOR_USERNAME = 'initiator_username'
 
 # Plaintext password for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
-MPESA_INITIATOR_SECURITY_CREDENTIAL = 'initiator_security_credential'
+#MPESA_INITIATOR_SECURITY_CREDENTIAL = 'initiator_security_credential'
 
-PAYPAL_CLIENT_ID=config('PAYPAL_CLIENT_ID')
+#PAYPAL_CLIENT_ID=config('PAYPAL_CLIENT_ID')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

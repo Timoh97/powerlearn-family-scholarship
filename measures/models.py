@@ -29,7 +29,7 @@ class Storage(models.Model):
     def units_available(self,type):
         storage = Storage.objects.filter(type =type).first()
         units = storage.available_units
-        return units;
+        return units
 
     
     
@@ -54,6 +54,6 @@ class Goods(models.Model):
         
     def owner_goods(self,owner):
         goods = Goods.objects.filter(owner=owner).all()
-        return goods;
+        return goods
 
     
