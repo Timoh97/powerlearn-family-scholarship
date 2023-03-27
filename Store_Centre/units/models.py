@@ -5,9 +5,9 @@ from store.models import User
 class Storage(models.Model):
     type = models.CharField(max_length=100) #type of storage
     charge = models.IntegerField() #cost per unit
-    # no_units = models.IntegerField(default=0) #total number of units in a storage type
-    # available_units = models.IntegerField(default=0) # remaining units 
-
+    total_cost = models.IntegerField(default=0) #total number of units in a storage type
+    no_of_units = models.IntegerField(default=0) # remaining units 
+    
     def __str__(self):
         return self.type
 

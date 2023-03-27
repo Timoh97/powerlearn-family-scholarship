@@ -9,13 +9,15 @@ from django.template.loader import render_to_string, get_template
 from django.core.mail import EmailMessage
 from decimal import Decimal
 from paypal.standard.forms import PayPalPaymentsForm
-import re
+
 from django_daraja.mpesa.core import MpesaClient
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http.response import JsonResponse
 from django.urls import reverse
 from requests.api import get
 from requests.auth import HTTPBasicAuth
+from django.shortcuts import render
+from django.http import HttpResponse
 
 
 
@@ -109,14 +111,43 @@ stk_push_callback_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/proces
 b2c_callback_url = 'https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentrequest'
 c2b_callback_url = 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl'
 
+
+
+#newapi configuration
+# def initiate_payment(request):
+#     access_token = "your_access_token_here" # replace with your actual access token
+#     api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+    
+#     headers = { "Authorization": "Bearer %s" % access_token }
+    
+#     # replace with your actual data
+#     payload = {
+#         "BusinessShortCode": "your_business_short_code_here",
+#         "Password": "your_encoded_password_here",
+#         "Timestamp": "your_timestamp_here",
+#         "TransactionType": "CustomerPayBillOnline",
+#         "Amount": "10",
+#         "PartyA": "your_phone_number_here",
+#         "PartyB": "your_business_short_code_here",
+#         "PhoneNumber": "your_phone_number_here",
+#         "CallBackURL": "your_callback_url_here",
+#         "AccountReference": "your_account_reference_here",
+#         "TransactionDesc": "your_transaction_description_here"
+#     }
+    
+#     response = requests.post(api_url, json=payload, headers=headers)
+    
+#     return HttpResponse(response.text)
+
 def getAccessToken(request):
-    consumer_key = 'GAeIsGiTzoclVjKZ0lpGkRTKqSOlM4tP'
-    consumer_secret = 'il1gZPOjXMF3LeFD'
+    consumer_key = 'A3G5KRHlUd0vk4xrXwoDDchCIDq4vAoT'
+    consumer_secret = 'J7wEjNfxbSzPogLm'
     api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
     r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
     mpesa_access_token = json.loads(r.text)
     validated_mpesa_access_token = mpesa_access_token['access_token']
     return HttpResponse(validated_mpesa_access_token)
+    
 
 def oauth_success(request):
 	r = cl.access_token()
@@ -126,7 +157,7 @@ def oauth_success(request):
 def stk_push_success(request, ph_number, totalAmount):
     phone_number = ph_number
     amount = totalAmount
-    account_reference = 'Store Centre'
+    account_reference = 'modern warehouse'
     transaction_desc = 'STK Push Description'
     callback_url = stk_push_callback_url
     response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)

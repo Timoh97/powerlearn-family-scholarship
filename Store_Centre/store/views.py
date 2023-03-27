@@ -61,7 +61,7 @@ def IndexView(request):
     if request.method == 'POST':
         form = SubscribeForm(request.POST)
         if form.is_valid():
-            subject = 'Store Centre'
+            subject = 'modern warehouse'
             message = 'Welcome to Store Centre, All yor storage problems sorted by a click of a button.'
             recipient = form.cleaned_data.get('email')
             send_mail(subject, 
