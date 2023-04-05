@@ -49,7 +49,7 @@
                 <a style="border-radius: 50px;" class="text-dark dropdown-item" href="/change_password/">Change Password</a>
                 <a style="border-radius: 50px;" class="text-dark dropdown-item" href="/logout/">Logout</a>
                 {% else %}
-                <a style="border-radius: 50px;" class="text-dark dropdown-item" href="/admin/admin_login/">Admin Login</a>
+                <a style="border-radius: 50px;" class="text-dark dropdown-item" href="{% url 'admin_login' %}">Admin Login</a>
                 <a style="border-radius: 50px;" class="text-dark dropdown-item" href="{% url 'staff_login' %}">Staff Login</a>
                 <a style="border-radius: 50px;" class="text-dark dropdown-item" href="{% url 'client_login' %}">Client Login</a>
                 {% endif %}

@@ -60,8 +60,9 @@ class GoodsBookingForm(forms.Form):
     arrival_date =forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':"form-control" ,'type':"date" ,'oninput':"total()", 'name':"arrival_date", 'id':"arrival_date"}))
     departure_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':"form-control" ,'type':"date" ,'oninput':"total()", 'name':"departure_date", 'id':"departure_date"}))
     total_cost = forms.IntegerField(widget = forms.NumberInput(attrs ={'class':"form-control", 'type':'number','id':"total_cost"}))
+    available_units = forms.IntegerField(widget = forms.NumberInput(attrs ={'class':"form-control", 'type':'number','id':"available_units"}))
     class Meta:
         
-        fields = ('description','arrival_date','departure_date','Total_cost')
+        fields = ('description','arrival_date','departure_date','available_units','Total_cost')
 
            

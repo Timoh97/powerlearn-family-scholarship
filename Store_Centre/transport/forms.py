@@ -21,5 +21,5 @@ class TransportForm(forms.ModelForm):
             'phone_number': forms.TextInput(attrs={'placeholder': 'Input phone number'})
         }
         error_messages={
-            'phoneNumberRegex': _('Use the required formart +254712345678')
+            'phoneNumberRegex': _('Use the required format +254712345678')
         }

@@ -24,72 +24,84 @@ from django.http import HttpResponse
 
 # @login_required(login_url='client_login')
 def request_transport(request):
-    # api_key = settings.GOOGLE_API_KEY
-    # initial_units=request.session.get('initial_units')
-    # final_units = request.session.get('final_units')
-    # if request.method == 'POST':
-    #     form = TransportForm(request.POST)
-    #     if form.is_valid():
-    #         transport_request = form.save(commit=False)
-    #         transport_request.user = request.user
-    #         #client goods logic
-    #         goods = Goods.objects.filter(owner=request.user).last()
-    #         transport_request.goods= goods
-    #         #distance matrix logic
-    #         source = 'Moringa School,Nairobi,Kenya'
-    #         destination = transport_request.address
-    #         url = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
-    #         r = requests.get(url + 'origins=' + source +
-    #             '&destinations=' + destination +
-    #             '&key=' + api_key)
-    #         x=r.json()
-    #         print(x)
-    #         distance = x['rows'][0]["elements"][0]["distance"]["value"]
-    #         transport_request.distance = (distance)/1000
-    #         #calculate price
-    #         price = (transport_request.distance)*200
-    #         transport_request.price = price
-    #         #transport_type logic
-    #         if initial_units > final_units:
-    #             transport_request.transport_type = Transport.PICKUP
-    #         elif final_units > initial_units:
-    #             transport_request.transport_type= Transport.DELIVERY
-    #         transport_request.save()
-    #         return redirect('request_summary')
-    #     else:
-    #         print(form.errors)
-    # else:
-    #     form =TransportForm()
-    # context = {
-    #     'form':form,
-    #     'api_key': api_key,
-    #     'initial_units':initial_units,
-    #     'final_units': final_units,
-    # }
-    return render(request,'request_transport.html') #, context
+    #api_key = 'AIzaSyBGxCnx-pYsfygMM9mDP6EjtJuoBJ3zM9g'
+    api_key = 'AIzaSyDsBaerWzN5SHic00SOOpMpiREUY9HBHpA'
+    initial_units=request.session.get('initial_units')
+    final_units = request.session.get('final_units')
+    if request.method == 'POST':
+        form = TransportForm(request.POST)
+        if form.is_valid():
+            transport_request = form.save(commit=False)
+            transport_request.user = request.user
+            #client goods logic
+            goods = Goods.objects.filter(owner=request.user).last()
+            transport_request.goods= goods
+            #distance matrix logic
+            source = 'Nairobi'
+            destination = transport_request.address
+            destination1='Embu'
+            url = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
+            
+            r = requests.get(url + 'origins=' + source +
+                '&destinations=' + destination1 +
+                '&key=' + api_key)
+            
+            # r =requests.get(url)            
+            # data = r.read()
+            # name=data.decode("utf-8")
+            # conv = json.loads(name)
+            # print(conv)
+            
+            x=r.json()
+            print(x)
+            
+            distance = x['rows'][0]["elements"][0]["distance"]["value"]
+            print(distance)
+            transport_request.distance = (distance)/1000
+            #calculate price
+            price = (transport_request.distance)*200
+            transport_request.price = price
+            #transport_type logic
+            if initial_units > final_units:
+                transport_request.transport_type = Transport.PICKUP
+            elif final_units > initial_units:
+                transport_request.transport_type= Transport.DELIVERY
+            transport_request.save()
+            return redirect('request_summary')
+        else:
+            print(form.errors)
+    else:
+        form =TransportForm()
+    context = {
+        'form':form,
+        'api_key': api_key,
+        'initial_units':initial_units,
+        'final_units': final_units,
+    }
+    return render(request,'request_transport.html',context) #, context
 
 # @login_required(login_url='client_login')
 def request_summary(request):
-    # request_transport = Transport.objects.filter(user=request.user).last()
+    request_transport = Transport.objects.filter(user=request.user).last()
     
-    # print(request_transport.user.first_name)
-    # context = {
-    #     'request_transport': request_transport,
-    # }
+    print(request_transport.user.first_name)
+    context = {
+        'request_transport': request_transport,
+    }
     
-    # #email logic
-    # subject = 'TRANSPORT REQUEST SUMMARY'
-    # message = get_template('transport_summary_email.html').render(context)
-    # msg = EmailMessage(
-    #     subject,
-    #     message,
-    #     settings.EMAIL_HOST_USER,
-    #     [request_transport.email],
-    # )
-    # msg.content_subtype = 'html'
-    # msg.send()
+    #email logic
+    subject = 'TRANSPORT REQUEST SUMMARY'
+    message = get_template('transport_summary_email.html').render(context)
+    msg = EmailMessage(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        [request_transport.email],
+    )
+    msg.content_subtype = 'html'
+    msg.send()
     
-    return render(request,'request_summary.html')  #, context
+    return render(request,'request_summary.html',context)  #, context
 
 
 # @login_required(login_url='client_login')

@@ -13,5 +13,5 @@ class Order(models.Model):
     def delete_order(self):
         self.delete()
 
-    def __str__(self):
-        return f'{self.user}'
+    # def __str__(self):
+    #     return f'{self.user}'

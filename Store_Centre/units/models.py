@@ -36,12 +36,12 @@ class Storage(models.Model):
     
 class Goods(models.Model):
     # storage_type  = models.ForeignKey(Storage,on_delete=models.CASCADE,related_name='units') #type of storage
-    # no_of_units = models.IntegerField(null=True)
+    available_units = models.IntegerField(null=True)
     arrival_date = models.DateField()
     departure_date = models.DateField()
     description = models.TextField(max_length=500)
     total_cost = models.IntegerField(null=True)
-   # owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name='goods')
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,default= "" ,related_name='goods')
     
     def __str__(self):
         return str(self.owner)
