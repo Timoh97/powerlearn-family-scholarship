@@ -35,7 +35,7 @@ SECRET_KEY = 'fghjkl;jhdfgnnm#$hjklk'
 DEBUG = os.environ.get('DEBUG', True)
 
 
-ALLOWED_HOSTS = ['127.0.0.1']
+
 
 # Application definition
 
@@ -112,18 +112,7 @@ WSGI_APPLICATION = 'store_centre.wsgi.application'
 PAYPAL_RECEIVER_EMAIL = 'youremail@mail.com'
 PAYPAL_TEST = True
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'stores',
-        'USER': 'tim',
-        'PASSWORD':'P@ssword',
-        
-    }
-}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
