@@ -44,25 +44,24 @@ class StorageForm(forms.ModelForm):
 
     class Meta:
         model = Storage
-        fields = ('type','charge')
+        fields = ('type','charge','no_units','available_units')
 
 class GoodsBookingForm(forms.Form):
     storages = Storage.objects.all()
-    #choices =[( storage,{'label':storage.type,'charge':storage.charge }) for storage in storages]
+    choices =[( storage,{'label':storage.type,'charge':storage.charge }) for storage in storages]
     # choicess = [('b', 'blue'),
     #        ('g', {'label': 'green', 'disabled': 'disabled','value':'purple'}),
     #        ('c', {'label': 'cyan', 'title': 'Kind of violet', 'style': 'background: cyan;', }),
     #        ('r', 'red'), ]
 
-   # storage_type = forms.ChoiceField(choices=choices, label="storage",widget=SelectWOA)
+    storage_type = forms.ChoiceField(choices=choices, label="storage",widget=SelectWOA)
     description = forms.CharField(widget=forms.TextInput(attrs={'style':"border-radius: 5px;" ,'name':"description", 'id':"description",'class':"form-control" ,'cols':"30", 'rows':"10" }))
-   #  no_of_units =forms.IntegerField(widget=forms.NumberInput(attrs={'type':"number",'min':"1",'name':"no_of_units", 'id':"no_of_units", 'placeholder':"number of units"}))
+    no_of_units =forms.IntegerField(widget=forms.NumberInput(attrs={'type':"number",'min':"1",'name':"no_of_units", 'id':"no_of_units", 'placeholder':"number of units"}))
     arrival_date =forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':"form-control" ,'type':"date" ,'oninput':"total()", 'name':"arrival_date", 'id':"arrival_date"}))
     departure_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':"form-control" ,'type':"date" ,'oninput':"total()", 'name':"departure_date", 'id':"departure_date"}))
     total_cost = forms.IntegerField(widget = forms.NumberInput(attrs ={'class':"form-control", 'type':'number','id':"total_cost"}))
-    available_units = forms.IntegerField(widget = forms.NumberInput(attrs ={'class':"form-control", 'type':'number','id':"available_units"}))
     class Meta:
         
-        fields = ('description','arrival_date','departure_date','available_units','Total_cost')
+        fields = ('storage_type','no_of_units','description','arrival_date','departure_date','Total_cost')
 
            

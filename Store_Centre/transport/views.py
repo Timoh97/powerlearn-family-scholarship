@@ -9,23 +9,20 @@ from django.template.loader import render_to_string, get_template
 from django.core.mail import EmailMessage
 from decimal import Decimal
 from paypal.standard.forms import PayPalPaymentsForm
-
+import re
 from django_daraja.mpesa.core import MpesaClient
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http.response import JsonResponse
 from django.urls import reverse
 from requests.api import get
 from requests.auth import HTTPBasicAuth
-from django.shortcuts import render
-from django.http import HttpResponse
 
 
 
 
-# @login_required(login_url='client_login')
+@login_required(login_url='client_login')
 def request_transport(request):
-    #api_key = 'AIzaSyBGxCnx-pYsfygMM9mDP6EjtJuoBJ3zoo'
-    api_key = 'AIzaSyDsBaerWzN5SHic00SOOpMpiREUYuyiii'
+    api_key = settings.GOOGLE_API_KEY
     initial_units=request.session.get('initial_units')
     final_units = request.session.get('final_units')
     if request.method == 'POST':
@@ -37,26 +34,15 @@ def request_transport(request):
             goods = Goods.objects.filter(owner=request.user).last()
             transport_request.goods= goods
             #distance matrix logic
-            source = 'Nairobi'
+            source = 'Moringa School,Nairobi,Kenya'
             destination = transport_request.address
-            destination1='Embu'
             url = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
-            
             r = requests.get(url + 'origins=' + source +
-                '&destinations=' + destination1 +
+                '&destinations=' + destination +
                 '&key=' + api_key)
-            
-            # r =requests.get(url)            
-            # data = r.read()
-            # name=data.decode("utf-8")
-            # conv = json.loads(name)
-            # print(conv)
-            
             x=r.json()
             print(x)
-            
             distance = x['rows'][0]["elements"][0]["distance"]["value"]
-            print(distance)
             transport_request.distance = (distance)/1000
             #calculate price
             price = (transport_request.distance)*200
@@ -78,9 +64,9 @@ def request_transport(request):
         'initial_units':initial_units,
         'final_units': final_units,
     }
-    return render(request,'request_transport.html',context) #, context
+    return render(request,'request_transport.html', context)
 
-# @login_required(login_url='client_login')
+@login_required(login_url='client_login')
 def request_summary(request):
     request_transport = Transport.objects.filter(user=request.user).last()
     
@@ -101,20 +87,20 @@ def request_summary(request):
     msg.content_subtype = 'html'
     msg.send()
     
-    return render(request,'request_summary.html',context)  #, context
+    return render(request,'request_summary.html', context)
 
 
-# @login_required(login_url='client_login')
+@login_required(login_url='client_login')
 def summaries(request):
-    # all_summaries = Transport.objects.all().order_by('-created')
-    # summaries = Transport.objects.filter(user=request.user).all().order_by('-created')
-    # context = {
-    #     'summaries': summaries,
-    #     'all_summaries': all_summaries,
-    # }
+    all_summaries = Transport.objects.all().order_by('-created')
+    summaries = Transport.objects.filter(user=request.user).all().order_by('-created')
+    context = {
+        'summaries': summaries,
+        'all_summaries': all_summaries,
+    }
     
     
-    return render(request,'summaries.html') #, context
+    return render(request,'summaries.html', context)
 
 
 
@@ -123,43 +109,14 @@ stk_push_callback_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/proces
 b2c_callback_url = 'https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentrequest'
 c2b_callback_url = 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl'
 
-
-
-#newapi configuration
-# def initiate_payment(request):
-#     access_token = "your_access_token_here" # replace with your actual access token
-#     api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-    
-#     headers = { "Authorization": "Bearer %s" % access_token }
-    
-#     # replace with your actual data
-#     payload = {
-#         "BusinessShortCode": "your_business_short_code_here",
-#         "Password": "your_encoded_password_here",
-#         "Timestamp": "your_timestamp_here",
-#         "TransactionType": "CustomerPayBillOnline",
-#         "Amount": "10",
-#         "PartyA": "your_phone_number_here",
-#         "PartyB": "your_business_short_code_here",
-#         "PhoneNumber": "your_phone_number_here",
-#         "CallBackURL": "your_callback_url_here",
-#         "AccountReference": "your_account_reference_here",
-#         "TransactionDesc": "your_transaction_description_here"
-#     }
-    
-#     response = requests.post(api_url, json=payload, headers=headers)
-    
-#     return HttpResponse(response.text)
-
 def getAccessToken(request):
-    consumer_key = 'A3G5KRHlUd0vk4xrXwoDDchCIDq4vAoT'
-    consumer_secret = 'J7wEjNfxbSzPogLm'
+    consumer_key = 'GAeIsGiTzoclVjKZ0lpGkRTKqSOlM4tP'
+    consumer_secret = 'il1gZPOjXMF3LeFD'
     api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
     r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
     mpesa_access_token = json.loads(r.text)
     validated_mpesa_access_token = mpesa_access_token['access_token']
     return HttpResponse(validated_mpesa_access_token)
-    
 
 def oauth_success(request):
 	r = cl.access_token()
@@ -169,7 +126,7 @@ def oauth_success(request):
 def stk_push_success(request, ph_number, totalAmount):
     phone_number = ph_number
     amount = totalAmount
-    account_reference = 'modern warehouse'
+    account_reference = 'Store Centre'
     transaction_desc = 'STK Push Description'
     callback_url = stk_push_callback_url
     response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
@@ -177,7 +134,7 @@ def stk_push_success(request, ph_number, totalAmount):
 
 
 
-# @login_required(login_url='client_login')
+@login_required(login_url='client_login')
 def payment(request):
     request_transport = Transport.objects.filter(user=request.user).last()
     request_goods = Goods.objects.filter(owner=request.user).last()  

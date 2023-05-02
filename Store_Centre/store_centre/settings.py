@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'fghjkl;jhdfgnnm#$hjklk'
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = False
@@ -99,20 +99,39 @@ TEMPLATES = [
 WSGI_APPLICATION = 'store_centre.wsgi.application'
 
 #configure cloudinary
-# cloudinary.config(
-#     cloud_name = config('CD_NAME'),
-#     api_key= config('CD_API'),
-#     api_secret=config('CD_SECRET'),
-# )
+cloudinary.config(
+    cloud_name = config('CD_NAME'),
+    api_key= config('CD_API'),
+    api_secret=config('CD_SECRET'),
+)
 
 #GOOGLE API
-# GOOGLE_API_KEY= config('GOOGLE_API_KEY')
-# BASE_COUNTRY='KE'
+GOOGLE_API_KEY= config('GOOGLE_API_KEY')
+BASE_COUNTRY='KE'
 #PAYPAL API
 PAYPAL_RECEIVER_EMAIL = 'youremail@mail.com'
 PAYPAL_TEST = True
 
+# Database
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+#HOSTS
+ALLOWED_HOSTS = ["*"]
+
+
+
+# Database
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD':config('DB_PASSWORD'),
+        
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -175,10 +194,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# django_heroku.settings(locals())
 
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('S_KEY')
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('S_SECRET')
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('S_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('S_SECRET')
 
 LOGIN_REDIRECT_URL = 'index'
 
@@ -193,21 +212,21 @@ AUTHENTICATION_BACKENDS = [
    
 ]
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = config('E_USER') # your gmail account
-# EMAIL_HOST_PASSWORD = config('E_PASS')  # your  password
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('EMAIL_USER') # your gmail account
+EMAIL_HOST_PASSWORD = config('EMAIL_PASS')  # your  password
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 #jazzmin settings
 JAZZMIN_SETTINGS = {
       # title of the window (Will default to current_admin_site.site_title if absent or None)
-   "site_title": "Store-admin",
+   "site_title": "warehouse-admin",
 # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_header": "store",
      # Welcome text on the login screen
-    "welcome_sign": "Welcome to the store-centre",
+    "welcome_sign": "Welcome to the Kenyan shippers warehouse",
     # Copyright on the footer
     "copyright": "store_centre ltd @2022",
     # The model admin to search from the search bar, search bar omitted if excluded
@@ -252,18 +271,19 @@ JAZZMIN_SETTINGS = {
 MPESA_ENVIRONMENT = 'sandbox'
 
 # Credentials for the daraja app
-MPESA_CONSUMER_KEY = 'A3G5KRHlUd0vk4xrXwoDDchCIDq4vAoT'
-MPESA_CONSUMER_SECRET = 'J7wEjNfxbSzPogLm'
+
+MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY')
+MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
 
 #Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
 
-MPESA_SHORTCODE = '600584'
+MPESA_SHORTCODE = config('MPESA_SHORTCODE')
 
 # Shortcode to use for Lipa na MPESA Online (MPESA Express) transactions
 # This is only used on sandbox, do not set this variable in production
 # For sandbox use the Lipa na MPESA Online Shorcode provided on test credentials page
 
-MPESA_EXPRESS_SHORTCODE = '174379'
+MPESA_EXPRESS_SHORTCODE = config('MPESA_SHORTCODE')
 
 # Type of shortcode
 # Possible values:
@@ -276,7 +296,7 @@ MPESA_SHORTCODE_TYPE = 'paybill'
 # Sandbox passkey is available on test credentials page
 # Production passkey is sent via email once you go live
 
-MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+MPESA_PASSKEY = config('MPESA_PASSKEY')
 
 # Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
@@ -286,4 +306,4 @@ MPESA_INITIATOR_USERNAME = 'initiator_username'
 
 MPESA_INITIATOR_SECURITY_CREDENTIAL = 'initiator_security_credential'
 
-# PAYPAL_CLIENT_ID=config('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_ID=config('PAYPAL_CLIENT_ID')
