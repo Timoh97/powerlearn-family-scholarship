@@ -99,6 +99,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'store_centre.wsgi.application'
 
 #configure cloudinary
+# cloudinary.config(
+#     cloud_name ="",
+#     api_key= "",
+#     api_secret="",
+# )
+
 cloudinary.config(
     cloud_name = config('CD_NAME'),
     api_key= config('CD_API'),
@@ -214,8 +220,8 @@ AUTHENTICATION_BACKENDS = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = config('EMAIL_USER') # your gmail account
-EMAIL_HOST_PASSWORD = config('EMAIL_PASS')  # your  password
+EMAIL_HOST_USER = "timohmugendi@gmail.com" # your gmail account
+EMAIL_HOST_PASSWORD = "aztwqhswatczowkl" # your  password
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -228,7 +234,7 @@ JAZZMIN_SETTINGS = {
      # Welcome text on the login screen
     "welcome_sign": "Welcome to the Kenyan shippers warehouse",
     # Copyright on the footer
-    "copyright": "store_centre ltd @2022",
+    "copyright": "Modern warehouse2023",
     # The model admin to search from the search bar, search bar omitted if excluded
     "search_model": "auth.User",
      "topmenu_links": [
@@ -277,7 +283,7 @@ MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
 
 #Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
 
-MPESA_SHORTCODE = config('MPESA_SHORTCODE')
+MPESA_SHORTCODE = "1"
 
 # Shortcode to use for Lipa na MPESA Online (MPESA Express) transactions
 # This is only used on sandbox, do not set this variable in production
@@ -296,11 +302,11 @@ MPESA_SHORTCODE_TYPE = 'paybill'
 # Sandbox passkey is available on test credentials page
 # Production passkey is sent via email once you go live
 
-MPESA_PASSKEY = config('MPESA_PASSKEY')
+MPESA_PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
 
 # Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
-MPESA_INITIATOR_USERNAME = 'initiator_username'
+MPESA_INITIATOR_USERNAME = 'testapi'
 
 # Plaintext password for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 

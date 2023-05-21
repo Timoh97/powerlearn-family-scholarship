@@ -51,7 +51,7 @@
                             {%else%}
                             <p class="card-text"><strong>TYPE OF TRANSPORT REQUEST:
                                 </strong>{{request_transport.transport_type|upper}}</p>
-                            <p class="card-text"><strong>GOODS PRICE: </strong>Ksh. 0</p>
+                            <p class="card-text"><strong>GOODS PRICE: </strong>Ksh. {{request_goods.total_cost}}</p>
                             <p class="card-text"><strong>TRANSPORT PRICE: </strong>Ksh. {{request_transport.price}}</p>
                             <p class="card-text"><strong>TOTAL PRICE: </strong>Ksh. {{request_transport.price}}</p>
                             <hr>

@@ -40,11 +40,9 @@ class SelectWOA(Select):
 
 
 class StorageForm(forms.ModelForm):
-
-
     class Meta:
         model = Storage
-        fields = ('type','charge','no_units','available_units')
+        fields = ('type','charge','no_unit','available_unit')
 
 class GoodsBookingForm(forms.Form):
     storages = Storage.objects.all()
@@ -56,12 +54,12 @@ class GoodsBookingForm(forms.Form):
 
     storage_type = forms.ChoiceField(choices=choices, label="storage",widget=SelectWOA)
     description = forms.CharField(widget=forms.TextInput(attrs={'style':"border-radius: 5px;" ,'name':"description", 'id':"description",'class':"form-control" ,'cols':"30", 'rows':"10" }))
-    no_of_units =forms.IntegerField(widget=forms.NumberInput(attrs={'type':"number",'min':"1",'name':"no_of_units", 'id':"no_of_units", 'placeholder':"number of units"}))
+    no_of_unit =forms.IntegerField(widget=forms.NumberInput(attrs={'type':"number",'min':"1",'name':"no_of_unit", 'id':"no_of_unit", 'placeholder':"number of units"}))
     arrival_date =forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':"form-control" ,'type':"date" ,'oninput':"total()", 'name':"arrival_date", 'id':"arrival_date"}))
     departure_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':"form-control" ,'type':"date" ,'oninput':"total()", 'name':"departure_date", 'id':"departure_date"}))
     total_cost = forms.IntegerField(widget = forms.NumberInput(attrs ={'class':"form-control", 'type':'number','id':"total_cost"}))
     class Meta:
-        
-        fields = ('storage_type','no_of_units','description','arrival_date','departure_date','Total_cost')
+        model = Goods
+        fields = ('storage_type','description','no_of_unit','arrival_date','departure_date','total_cost')
 
            

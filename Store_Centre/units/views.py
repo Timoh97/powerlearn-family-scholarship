@@ -18,15 +18,15 @@ def book_unit(request):
             arrival_date= form.cleaned_data.get('arrival_date')
             departure_date= form.cleaned_data.get('departure_date')
             description = form.cleaned_data.get('description')
-            #no_of_units= form.cleaned_data.get('no_of_units') # available units
+            # no_of_unit= form.cleaned_data.get('no_of_units') # available units
             total_cost = form.cleaned_data.get('total_cost') 
         
             
             units = Storage.objects.filter(type=storage_type).first() 
             #transport logic
-            initial_units = units.available_units
+            initial_units = units.available_unit
             request.session['initial_units']=initial_units
-            if units.available_units:
+            if units.available_unit:
                 storage =  get_object_or_404(Storage,type=storage_type)
                 booked_unit =  Goods(storage_type =storage,arrival_date=arrival_date,departure_date=departure_date,description =description,owner =request.user,total_cost=total_cost)
                 booked_unit.add_goods()
@@ -34,7 +34,7 @@ def book_unit(request):
             
                 storage.add_storage() 
                 #transport logic
-                final_units = storage.available_units
+                final_units = storage.available_unit
                 request.session['final_units']=final_units
                 messages.success(request,f'Booked successfully')
                 return redirect('request_transport')
@@ -89,6 +89,7 @@ def display_units(request,storage_type):
     context = {
         "goods": goods,
         "storage_type":storage_type,
+        "form":form
     }
 
     return render(request,'units.html',context)
